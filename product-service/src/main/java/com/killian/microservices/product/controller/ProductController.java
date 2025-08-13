@@ -15,9 +15,6 @@ import com.killian.microservices.product.dto.ProductRequest;
 import com.killian.microservices.product.dto.ProductResponse;
 import com.killian.microservices.product.service.ProductService;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @RestController
 @RequestMapping("/api/product")
 public class ProductController {
