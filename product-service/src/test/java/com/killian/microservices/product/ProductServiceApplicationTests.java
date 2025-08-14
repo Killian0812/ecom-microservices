@@ -25,7 +25,7 @@ class ProductServiceApplicationTests {
 	@BeforeEach
 	@SuppressWarnings("unused")
 	void setup() {
-		mongoDBContainer.start();
+		System.out.println("MongoDB Container URI in Test: " + mongoDBContainer.getReplicaSetUrl());
 		RestAssured.baseURI = "http://localhost";
 		RestAssured.port = port;
 	}

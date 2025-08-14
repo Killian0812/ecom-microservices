@@ -1,6 +1,7 @@
 package com.killian.microservices.product;
 
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.utility.DockerImageName;
@@ -9,8 +10,10 @@ import org.testcontainers.utility.DockerImageName;
 class TestcontainersConfiguration {
 
 	@Bean
-	MongoDBContainer mongoDbContainer() {
-		return new MongoDBContainer(DockerImageName.parse("mongo:7.0.5"));
+	@ServiceConnection
+	public MongoDBContainer mongoDbContainer() {
+		MongoDBContainer container = new MongoDBContainer(DockerImageName.parse("mongo:7.0.5"));
+		return container;
 	}
 
 }
