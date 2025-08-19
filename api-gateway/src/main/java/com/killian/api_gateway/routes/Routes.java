@@ -1,7 +1,10 @@
 package com.killian.api_gateway.routes;
 
 import org.springframework.beans.factory.annotation.Value;
+import static org.springframework.cloud.gateway.server.mvc.filter.FilterFunctions.setPath;
+import org.springframework.cloud.gateway.server.mvc.handler.GatewayRouterFunctions;
 import static org.springframework.cloud.gateway.server.mvc.handler.GatewayRouterFunctions.route;
+import org.springframework.cloud.gateway.server.mvc.handler.HandlerFunctions;
 import static org.springframework.cloud.gateway.server.mvc.handler.HandlerFunctions.http;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,4 +45,31 @@ public class Routes {
                 .build();
     }
 
+    // No OpenAPI config needed, using aggregated documentation only
+    @Bean
+    public RouterFunction<ServerResponse> productServiceSwaggerRoute() {
+        return GatewayRouterFunctions.route("product_service_swagger")
+                .route(RequestPredicates.path("/aggregate/product-service/api-docs"),
+                        HandlerFunctions.http(productServiceUrl))
+                .filter(setPath("/v3/api-docs"))
+                .build();
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> orderServiceSwaggerRoute() {
+        return GatewayRouterFunctions.route("order_service_swagger")
+                .route(RequestPredicates.path("/aggregate/order-service/api-docs"),
+                        HandlerFunctions.http(orderServiceUrl))
+                .filter(setPath("/v3/api-docs"))
+                .build();
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> inventoryServiceSwaggerRoute() {
+        return GatewayRouterFunctions.route("inventory_service_swagger")
+                .route(RequestPredicates.path("/aggregate/inventory-service/api-docs"),
+                        HandlerFunctions.http(inventoryServiceUrl))
+                .filter(setPath("/v3/api-docs"))
+                .build();
+    }
 }
