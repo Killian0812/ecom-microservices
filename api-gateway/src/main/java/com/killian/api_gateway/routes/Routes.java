@@ -20,6 +20,7 @@ public class Routes {
 
     @Bean
     public RouterFunction<ServerResponse> productServiceRoute() {
+        System.out.println("Forwarding" + productServiceUrl);
         return route("product_service")
                 .route(RequestPredicates.path("/api/product"), http(productServiceUrl))
                 .build();
