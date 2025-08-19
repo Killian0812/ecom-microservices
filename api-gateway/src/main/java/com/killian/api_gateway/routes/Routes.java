@@ -18,14 +18,15 @@ public class Routes {
     @Value("${inventory.service.url}")
     private String inventoryServiceUrl;
 
+    @SuppressWarnings("deprecation")
     @Bean
     public RouterFunction<ServerResponse> productServiceRoute() {
-        System.out.println("Forwarding" + productServiceUrl);
         return route("product_service")
                 .route(RequestPredicates.path("/api/product"), http(productServiceUrl))
                 .build();
     }
 
+    @SuppressWarnings("deprecation")
     @Bean
     public RouterFunction<ServerResponse> orderServiceRoute() {
         return route("order_service")
@@ -33,6 +34,7 @@ public class Routes {
                 .build();
     }
 
+    @SuppressWarnings("deprecation")
     @Bean
     public RouterFunction<ServerResponse> inventoryServiceRoute() {
         return route("inventory_service")
