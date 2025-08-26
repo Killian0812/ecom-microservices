@@ -9,8 +9,8 @@ At any given point of time, a circuit breaker will be in different states like:
 **Closed**: In this state, the Circuit Breaker will allow all the requests to the service, which means that the service R is working well without any problems.
 
 Check components status using Actuator: http://localhost:8888/actuator/health
-Before product service down:
 
+Before product service down:
 ```"components": {
     "circuitBreakers": {
       "status": "UP",
@@ -33,4 +33,42 @@ Before product service down:
       }
     },
 },
+```
+
+After 5 failed calls:
+```                "productServiceCircuitBreaker": {
+                    "status": "CIRCUIT_OPEN",
+                    "details": {
+                        "failureRate": "100.0%",
+                        "failureRateThreshold": "50.0%",
+                        "slowCallRate": "0.0%",
+                        "slowCallRateThreshold": "100.0%",
+                        "bufferedCalls": 5,
+                        "slowCalls": 0,
+                        "slowFailedCalls": 0,
+                        "failedCalls": 5,
+                        "notPermittedCalls": 0,
+                        "state": "OPEN"
+                    }
+                }
+```
+
+Early fallback response in circuit breaker OPEN state:
+![alt text](readme-assets/image.png)
+
+After 3 successful calls in HALF_OPEN state:
+```
+                    "status": "UP",
+                    "details": {
+                        "failureRate": "-1.0%",
+                        "failureRateThreshold": "50.0%",
+                        "slowCallRate": "-1.0%",
+                        "slowCallRateThreshold": "100.0%",
+                        "bufferedCalls": 0,
+                        "slowCalls": 0,
+                        "slowFailedCalls": 0,
+                        "failedCalls": 0,
+                        "notPermittedCalls": 0,
+                        "state": "CLOSED"
+                    }
 ```
