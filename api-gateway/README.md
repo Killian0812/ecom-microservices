@@ -72,3 +72,24 @@ After 3 successful calls in HALF_OPEN state:
                         "state": "CLOSED"
                     }
 ```
+
+Note: circuit breaker only trigger fallback when there is exception (timeout, connection err,...), not when error code is recieved from remote services.
+
+After adding 5s sleep, early return from circuit breaker 3s timelimiter:
+![alt text](readme-assets/image2.png)
+After 5 slow calls:
+```
+                    "status": "CIRCUIT_OPEN",
+                    "details": {
+                        "failureRate": "100.0%",
+                        "failureRateThreshold": "50.0%",
+                        "slowCallRate": "0.0%",
+                        "slowCallRateThreshold": "100.0%",
+                        "bufferedCalls": 3,
+                        "slowCalls": 0,
+                        "slowFailedCalls": 0,
+                        "failedCalls": 3,
+                        "notPermittedCalls": 1, // This call got early fallback
+                        "state": "OPEN"
+                    }
+```
