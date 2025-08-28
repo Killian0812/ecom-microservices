@@ -8,7 +8,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
-import com.killian.microservices.notification_service.event.OrderPlacedEvent;
+import com.killian.microservices.order.event.OrderPlacedEvent;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,7 +26,7 @@ public class NotificationService {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom("ecomshop@email.com");
-            messageHelper.setTo(event.getEmail());
+            messageHelper.setTo(event.getEmail().toString());
             messageHelper.setSubject(String.format("Your Order with OrderNumber %s is placed successfully",
                     event.getOrderNumber()));
             messageHelper.setText(String.format("""
@@ -39,7 +39,7 @@ public class NotificationService {
         };
         try {
             javaMailSender.send(messagePreparator);
-            log.info("Order Notifcation email sent!!");
+            log.info("Order Notification email sent!!");
         } catch (MailException e) {
             log.error("Exception occurred when sending mail", e);
             throw new RuntimeException("Exception occurred when sending mail to springshop@email.com", e);
